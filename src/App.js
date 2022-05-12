@@ -1,17 +1,16 @@
-import React from "react";
-import Card from "./components/Card";
-import Form from "./components/Form";
+import React from 'react';
+import Card from './components/Card';
+import Form from './components/Form';
 
 class App extends React.Component {
-
   state = {
-    name: "",
-    description: "",
-    url: "",
-    attr1: "",
-    attr2: "",
-    attr3: "",
-    rare: "",
+    name: '',
+    description: '',
+    url: '',
+    attr1: '',
+    attr2: '',
+    attr3: '',
+    rare: '',
     checkboxTrunfo: false,
   };
 
@@ -20,7 +19,7 @@ class App extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({
       [name]: value,
-    })
+    });
   }
 
   render() {
@@ -32,7 +31,7 @@ class App extends React.Component {
       attr2,
       attr3,
       rare,
-      checkboxTrunfo
+      checkboxTrunfo,
     } = this.state;
 
     return (
@@ -41,28 +40,28 @@ class App extends React.Component {
           <h1>Tryunfo</h1>
         </div>
         <Form
-          cardName={name}
-          cardDescription={description}
-          cardAttr1={attr1}
-          cardAttr2={attr2}
-          cardAttr3={attr3}
-          cardImage={url}
-          cardRare={rare}
-          cardTrunfo={checkboxTrunfo}
-          hasTrunfo={false}
-          isSaveButtonDisabled={false}
-          onInputChange={this.onInputChange}
-          onSaveButtonClick={() => { }}
+          cardName={ name }
+          cardDescription={ description }
+          cardAttr1={ attr1 }
+          cardAttr2={ attr2 }
+          cardAttr3={ attr3 }
+          cardImage={ url }
+          cardRare={ rare }
+          cardTrunfo={ checkboxTrunfo }
+          hasTrunfo={ false }
+          isSaveButtonDisabled={ false }
+          onInputChange={ this.onInputChange }
+          onSaveButtonClick={ () => { } }
         />
         <Card
-          cardName={name}
-          cardDescription={description}
-          cardAttr1={attr1}
-          cardAttr2={attr2}
-          cardAttr3={attr3}
-          cardImage={url}
-          cardRare={rare}
-          cardTrunfo={checkboxTrunfo}
+          cardName={ name }
+          cardDescription={ description }
+          cardAttr1={ attr1 }
+          cardAttr2={ attr2 }
+          cardAttr3={ attr3 }
+          cardImage={ url }
+          cardRare={ rare }
+          cardTrunfo={ checkboxTrunfo }
         />
       </>
     );
