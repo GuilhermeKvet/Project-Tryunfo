@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
+import Baralho from './components/Baralho';
 
 function App() {
   const form = {
@@ -15,6 +16,7 @@ function App() {
     hasTrunfo: false,
   };
 
+  const [cardsContainer, setCardsContainer] = useState([]);
   const [userForm, setUserForm] = useState(form);
   const [savedButton, setSavedButton] = useState(true);
 
@@ -59,8 +61,28 @@ function App() {
     }
   }, [userForm]);
 
+  useEffect(() => {
+    localStorage.setItem('card', JSON.stringify(cardsContainer));
+    cardsContainer.map((card) => {
+      if (card.checkboxTrunfo === true) {
+        setUserForm({
+          name: '',
+          url: '',
+          description: '',
+          attr1: 0,
+          attr2: 0,
+          attr3: 0,
+          rare: 'normal',
+          checkboxTrunfo: false,
+          hasTrunfo: true,
+        });
+      }
+      return setUserForm;
+    });
+  }, [cardsContainer]);
+
   return (
-    <>
+    <div>
       <div>
         <h1>Tryunfo</h1>
       </div>
@@ -88,7 +110,8 @@ function App() {
         cardRare={ userForm.rare }
         cardTrunfo={ userForm.checkboxTrunfo }
       />
-    </>
+      <Baralho cards={ cardsContainer } />
+    </div>
   );
 }
 
