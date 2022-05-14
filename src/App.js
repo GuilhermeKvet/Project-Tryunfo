@@ -1,71 +1,95 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
 
-class App extends React.Component {
-  state = {
+function App() {
+  const form = {
     name: '',
-    description: '',
     url: '',
-    attr1: '',
-    attr2: '',
-    attr3: '',
-    rare: '',
+    description: '',
+    attr1: 0,
+    attr2: 0,
+    attr3: 0,
+    rare: 'normal',
     checkboxTrunfo: false,
+    hasTrunfo: false,
   };
 
-  onInputChange = ({ target }) => {
-    const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({
+  const [userForm, setUserForm] = useState(form);
+  const [savedButton, setSavedButton] = useState(true);
+
+  const resetField = () => {
+    setCardsContainer([...cardsContainer, userForm]);
+    setUserForm({
+      name: '',
+      url: '',
+      description: '',
+      attr1: 0,
+      attr2: 0,
+      attr3: 0,
+      rare: 'normal',
+      checkboxTrunfo: false,
+      hasTrunfo: true,
+    });
+  };
+
+  const handleChange = ({ target }) => {
+    const { name, value, checked } = target;
+    setUserForm({
+      ...userForm,
+      checkboxTrunfo: checked,
       [name]: value,
     });
-  }
+  };
 
-  render() {
-    const {
-      name,
-      description,
-      url,
-      attr1,
-      attr2,
-      attr3,
-      rare,
-      checkboxTrunfo,
-    } = this.state;
+  useEffect(() => {
+    const ninety = 90;
+    const sumMax = 210;
+    const { name, description, url, rare, attr1, attr2, attr3 } = userForm;
+    if (name === '' || description === '' || url === '' || rare === '') {
+      setSavedButton(true);
+    } else if (attr1 > ninety || attr2 > ninety || attr3 > ninety) {
+      setSavedButton(true);
+    } else if (attr1 < 0 || attr2 < 0 || attr3 < 0) {
+      setSavedButton(true);
+    } else if (Number(attr1) + Number(attr2) + Number(attr3) > sumMax) {
+      setSavedButton(true);
+    } else {
+      setSavedButton(false);
+    }
+  }, [userForm]);
 
-    return (
-      <>
-        <div>
-          <h1>Tryunfo</h1>
-        </div>
-        <Form
-          cardName={ name }
-          cardDescription={ description }
-          cardAttr1={ attr1 }
-          cardAttr2={ attr2 }
-          cardAttr3={ attr3 }
-          cardImage={ url }
-          cardRare={ rare }
-          cardTrunfo={ checkboxTrunfo }
-          hasTrunfo={ false }
-          isSaveButtonDisabled={ false }
-          onInputChange={ this.onInputChange }
-          onSaveButtonClick={ () => { } }
-        />
-        <Card
-          cardName={ name }
-          cardDescription={ description }
-          cardAttr1={ attr1 }
-          cardAttr2={ attr2 }
-          cardAttr3={ attr3 }
-          cardImage={ url }
-          cardRare={ rare }
-          cardTrunfo={ checkboxTrunfo }
-        />
-      </>
-    );
-  }
+  return (
+    <>
+      <div>
+        <h1>Tryunfo</h1>
+      </div>
+      <Form
+        cardName={ userForm.name }
+        cardImage={ userForm.url }
+        cardDescription={ userForm.description }
+        cardAttr1={ userForm.attr1 }
+        cardAttr2={ userForm.attr2 }
+        cardAttr3={ userForm.attr3 }
+        cardRare={ userForm.rare }
+        cardTrunfo={ userForm.checkboxTrunfo }
+        hasTrunfo={ userForm.hasTrunfo }
+        onInputChange={ handleChange }
+        isSaveButtonDisabled={ savedButton }
+        onSaveButtonClick={ resetField }
+      />
+      <Card
+        cardName={ userForm.name }
+        cardImage={ userForm.url }
+        cardDescription={ userForm.description }
+        cardAttr1={ userForm.attr1 }
+        cardAttr2={ userForm.attr2 }
+        cardAttr3={ userForm.attr3 }
+        cardRare={ userForm.rare }
+        cardTrunfo={ userForm.checkboxTrunfo }
+      />
+    </>
+  );
 }
 
 export default App;
