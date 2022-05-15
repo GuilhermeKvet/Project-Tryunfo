@@ -10,6 +10,8 @@ function Card({
   cardAttr3,
   cardRare,
   cardTrunfo,
+  renderButtonDel,
+  isDeleteButton,
 }) {
   return (
     <div>
@@ -21,6 +23,16 @@ function Card({
       <h4 data-testid="attr3-card">{ cardAttr3 }</h4>
       <p data-testid="rare-card">{ cardRare }</p>
       { cardTrunfo && <h3 data-testid="trunfo-card">Super Trunfo</h3> }
+      { renderButtonDel && (
+        <button
+          data-testid="delete-button"
+          type="button"
+          name={ cardName }
+          onClick={ isDeleteButton }
+        >
+          Excluir
+        </button>
+      ) }
     </div>
   );
 }
@@ -34,6 +46,8 @@ Card.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
+  renderButtonDel: PropTypes.bool.isRequired,
+  isDeleteButton: PropTypes.func.isRequired,
 };
 
 export default Card;

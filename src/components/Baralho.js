@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
 
-function Baralho({ cards }) {
+function Baralho({ cards, renderButtonDel, isDeleteButton }) {
   return (
     <div>
       {cards.map((card) => (
@@ -16,6 +16,8 @@ function Baralho({ cards }) {
             cardAttr3={ card.attr3 }
             cardRare={ card.rare }
             cardTrunfo={ card.checkboxTrunfo }
+            renderButtonDel={ renderButtonDel }
+            isDeleteButton={ isDeleteButton }
           />
         </div>
       ))}
@@ -34,6 +36,8 @@ Baralho.propTypes = {
     cardRare: PropTypes.string.isRequired,
     cardTrunfo: PropTypes.bool.isRequired,
   }).isRequired,
+  renderButtonDel: PropTypes.bool.isRequired,
+  isDeleteButton: PropTypes.func.isRequired,
 };
 
 export default Baralho;

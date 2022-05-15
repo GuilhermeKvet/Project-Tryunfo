@@ -14,6 +14,7 @@ function App() {
     rare: 'normal',
     checkboxTrunfo: false,
     hasTrunfo: false,
+    buttonRemove: true,
   };
 
   const [cardsContainer, setCardsContainer] = useState([]);
@@ -32,7 +33,14 @@ function App() {
       rare: 'normal',
       checkboxTrunfo: false,
       hasTrunfo: true,
+      buttonRemove: true,
     });
+  };
+
+  const isDeleteButton = (event) => {
+    const newData = cardsContainer.filter((card) => (
+      card.name !== event.target.name));
+    setCardsContainer(newData);
   };
 
   const handleChange = ({ target }) => {
@@ -48,6 +56,20 @@ function App() {
     const ninety = 90;
     const sumMax = 210;
     const { name, description, url, rare, attr1, attr2, attr3 } = userForm;
+    if (userForm.hasTrunfo === true) {
+      setUserForm({
+        name: '',
+        url: '',
+        description: '',
+        attr1: 0,
+        attr2: 0,
+        attr3: 0,
+        rare: 'normal',
+        checkboxTrunfo: false,
+        hasTrunfo: false,
+        buttonRemove: true,
+      });
+    }
     if (name === '' || description === '' || url === '' || rare === '') {
       setSavedButton(true);
     } else if (attr1 > ninety || attr2 > ninety || attr3 > ninety) {
@@ -64,7 +86,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('card', JSON.stringify(cardsContainer));
     cardsContainer.map((card) => {
-      if (card.checkboxTrunfo === true) {
+      if (card.checkboxTrunfo === false) {
         setUserForm({
           name: '',
           url: '',
@@ -74,7 +96,8 @@ function App() {
           attr3: 0,
           rare: 'normal',
           checkboxTrunfo: false,
-          hasTrunfo: true,
+          hasTrunfo: false,
+          buttonRemove: true,
         });
       }
       return setUserForm;
@@ -110,7 +133,11 @@ function App() {
         cardRare={ userForm.rare }
         cardTrunfo={ userForm.checkboxTrunfo }
       />
-      <Baralho cards={ cardsContainer } />
+      <Baralho
+        cards={ cardsContainer }
+        isDeleteButton={ isDeleteButton }
+        renderButtonDel={ userForm.buttonRemove }
+      />
     </div>
   );
 }
