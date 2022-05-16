@@ -15,6 +15,7 @@ function App() {
     checkboxTrunfo: false,
     hasTrunfo: false,
     buttonRemove: true,
+    filter: '',
   };
 
   const [cardsContainer, setCardsContainer] = useState([]);
@@ -34,6 +35,7 @@ function App() {
       checkboxTrunfo: false,
       hasTrunfo: true,
       buttonRemove: true,
+      filter: '',
     });
   };
 
@@ -57,18 +59,9 @@ function App() {
     const sumMax = 210;
     const { name, description, url, rare, attr1, attr2, attr3 } = userForm;
     if (userForm.hasTrunfo === true) {
-      setUserForm({
-        name: '',
-        url: '',
-        description: '',
-        attr1: 0,
-        attr2: 0,
-        attr3: 0,
-        rare: 'normal',
-        checkboxTrunfo: false,
-        hasTrunfo: false,
-        buttonRemove: true,
-      });
+      setUserForm((prevState) => (
+        { ...prevState, hasTrunfo: false }
+      ));
     }
     if (name === '' || description === '' || url === '' || rare === '') {
       setSavedButton(true);
@@ -87,18 +80,9 @@ function App() {
     localStorage.setItem('card', JSON.stringify(cardsContainer));
     cardsContainer.map((card) => {
       if (card.checkboxTrunfo === false) {
-        setUserForm({
-          name: '',
-          url: '',
-          description: '',
-          attr1: 0,
-          attr2: 0,
-          attr3: 0,
-          rare: 'normal',
-          checkboxTrunfo: false,
-          hasTrunfo: false,
-          buttonRemove: true,
-        });
+        setUserForm((prevState) => (
+          { ...prevState, hasTrunfo: true }
+        ));
       }
       return setUserForm;
     });
@@ -133,6 +117,17 @@ function App() {
         cardRare={ userForm.rare }
         cardTrunfo={ userForm.checkboxTrunfo }
       />
+      <label htmlFor="filterContainer">
+        Pesquisar
+        <input
+          type="text"
+          data-testid="name-filter"
+          id="filterContainer"
+          value={ userForm.filter }
+          name="filter"
+          onChange={ handleChange }
+        />
+      </label>
       <Baralho
         cards={ cardsContainer }
         isDeleteButton={ isDeleteButton }
