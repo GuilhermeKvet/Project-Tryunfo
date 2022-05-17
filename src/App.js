@@ -16,6 +16,7 @@ function App() {
     hasTrunfo: false,
     buttonRemove: true,
     filter: '',
+    checkBoxFilter: false,
   };
 
   const [cardsContainer, setCardsContainer] = useState([]);
@@ -36,7 +37,17 @@ function App() {
       hasTrunfo: true,
       buttonRemove: true,
       filter: '',
+      checkBoxFilter: false,
     });
+  };
+
+  const filterCards = () => {
+    const filter = cardsContainer.filter((cardFilter) => {
+      if (cardFilter.name.includes(userForm.filter)) return cardFilter;
+      if (cardFilter.rare === userForm.filter) return cardFilter;
+      return false;
+    });
+    return filter;
   };
 
   const isDeleteButton = (event) => {
@@ -117,22 +128,38 @@ function App() {
         cardRare={ userForm.rare }
         cardTrunfo={ userForm.checkboxTrunfo }
       />
-      <label htmlFor="filterContainer">
+      <label htmlFor="inputFilter">
         Pesquisar
         <input
           type="text"
           data-testid="name-filter"
-          id="filterContainer"
+          id="inputFilter"
           value={ userForm.filter }
           name="filter"
           onChange={ handleChange }
         />
       </label>
+      <br />
+      <label htmlFor="selectFilter">
+        Raridade
+        <select
+          id="selectFilter"
+          data-testid="rare-filter"
+          value={ userForm.filter }
+          name="filter"
+          onChange={ handleChange }
+        >
+          <option value="">todas</option>
+          <option value="normal">normal</option>
+          <option value="raro">raro</option>
+          <option value="muito raro">muito raro</option>
+        </select>
+      </label>
+      <br />
       <Baralho
-        cards={ cardsContainer }
+        cards={ filterCards() }
         isDeleteButton={ isDeleteButton }
         renderButtonDel={ userForm.buttonRemove }
-        filterState={ userForm.filter }
       />
     </div>
   );
