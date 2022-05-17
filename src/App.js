@@ -132,6 +132,7 @@ function App() {
         cards={ cardsContainer }
         isDeleteButton={ isDeleteButton }
         renderButtonDel={ userForm.buttonRemove }
+        filterState={ userForm.filter }
       />
     </div>
   );
