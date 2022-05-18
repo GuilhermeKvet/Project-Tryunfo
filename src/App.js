@@ -13,10 +13,10 @@ function App() {
     attr3: 0,
     rare: 'normal',
     checkboxTrunfo: false,
+    checkBoxFilter: false,
     hasTrunfo: false,
     buttonRemove: true,
     filter: '',
-    checkBoxFilter: false,
   };
 
   const [cardsContainer, setCardsContainer] = useState([]);
@@ -34,11 +34,19 @@ function App() {
       attr3: 0,
       rare: 'normal',
       checkboxTrunfo: false,
+      checkBoxFilter: false,
       hasTrunfo: true,
       buttonRemove: true,
       filter: '',
-      checkBoxFilter: false,
     });
+  };
+
+  const filterTrunfoCard = () => {
+    const cardTrunfo = cardsContainer.find((card) => {
+      if (card.checkboxTrunfo) return card;
+      return false;
+    });
+    return cardTrunfo;
   };
 
   const filterCards = () => {
@@ -57,10 +65,10 @@ function App() {
   };
 
   const handleChange = ({ target }) => {
-    const { name, value, checked } = target;
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     setUserForm({
       ...userForm,
-      checkboxTrunfo: checked,
       [name]: value,
     });
   };
@@ -129,7 +137,7 @@ function App() {
         cardTrunfo={ userForm.checkboxTrunfo }
       />
       <label htmlFor="inputFilter">
-        Pesquisar
+        Nome
         <input
           type="text"
           data-testid="name-filter"
@@ -137,6 +145,7 @@ function App() {
           value={ userForm.filter }
           name="filter"
           onChange={ handleChange }
+          disabled={ userForm.checkBoxFilter }
         />
       </label>
       <br />
@@ -148,6 +157,7 @@ function App() {
           value={ userForm.filter }
           name="filter"
           onChange={ handleChange }
+          disabled={ userForm.checkBoxFilter }
         >
           <option value="">todas</option>
           <option value="normal">normal</option>
@@ -156,11 +166,31 @@ function App() {
         </select>
       </label>
       <br />
-      <Baralho
-        cards={ filterCards() }
-        isDeleteButton={ isDeleteButton }
-        renderButtonDel={ userForm.buttonRemove }
-      />
+      <label htmlFor="trunfoFilter">
+        <input
+          data-testid="trunfo-filter"
+          name="checkBoxFilter"
+          checked={ userForm.checkBoxFilter }
+          onChange={ handleChange }
+          type="checkbox"
+          id="trunfoFilter"
+        />
+        Super Trunfo
+      </label>
+      { userForm.checkBoxFilter ? (
+        <Baralho
+          cards={ [] }
+          cardTrunfo={ filterTrunfoCard() }
+          isDeleteButton={ isDeleteButton }
+          renderButtonDel={ userForm.buttonRemove }
+        />
+      ) : (
+        <Baralho
+          cards={ filterCards() }
+          isDeleteButton={ isDeleteButton }
+          renderButtonDel={ userForm.buttonRemove }
+        />
+      )}
     </div>
   );
 }

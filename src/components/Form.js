@@ -114,14 +114,14 @@ function Form({
       {hasTrunfo ? (
         'Você já tem um Super Trunfo em seu baralho'
       ) : (
-        <label htmlFor="checkbox">
+        <label htmlFor="checkboxForm">
           <input
             data-testid="trunfo-input"
-            name="cardTrunfo"
+            name="checkboxTrunfo"
             checked={ cardTrunfo }
             onChange={ onInputChange }
             type="checkbox"
-            id="checkbox"
+            id="checkboxForm"
           />
           Super Trybe Trunfo
         </label>
